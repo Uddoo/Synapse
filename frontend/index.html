@@ -113,7 +113,8 @@
       #pathBtn[data-on="1"] { color:#ffd479; border-color:#ffd479; }
       /* One wrapping flow keeps tools from covering each other or the sidebar buttons. */
       #canvasTools { position:absolute; top:8px; left:52px; right:52px; display:flex; gap:8px;
-                     align-items:center; z-index:3; flex-wrap:wrap; }
+                     align-items:center; z-index:3; flex-wrap:wrap; pointer-events:none; }
+      #canvasTools button, #canvasTools .lens-menu { pointer-events:auto; }
       #canvasTools .edgeBtn { position:static; white-space:nowrap; }
       #typebar { display:flex; gap:4px; flex-wrap:wrap; }
       #typebar .pill { font-size:0.74rem; color:var(--text); background:var(--panel); border:1px solid var(--border); border-radius:999px; padding:2px 9px; cursor:pointer; }

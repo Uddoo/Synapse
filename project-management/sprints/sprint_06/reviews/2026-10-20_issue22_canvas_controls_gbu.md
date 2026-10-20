@@ -55,3 +55,13 @@ REVISE/REJECT verdict, disputed P0/P1, or human request for a challenge applies.
 1. `dev`: submit the PR template with screenshot attachments and autonomous-AI disclosure.
 2. Maintainers: review the diff and hosted checks under the repository's normal gate.
    This agent does not approve workflows, approve the PR, enable auto-merge, or merge it.
+
+## Follow-up to automated review of 2364b69
+
+The external Codex review correctly identified a P2: the transparent toolbar's unused area
+intercepted sibling-canvas gestures. A new test first reproduced the wrong hit target. The
+follow-up restricts pointer-event restoration to buttons and the lens menu; intermediate
+wrappers and gaps pass through. Reviewed the exact CSS/test diff and the repeated green
+17-case browser run, which now includes actual wheel zoom in a gap, the existing Explorer
+drag/pin/reset run, and the passing build. No additional blocking finding; the conditional
+submission verdict stands. This is an automated self-review, not maintainer acceptance.

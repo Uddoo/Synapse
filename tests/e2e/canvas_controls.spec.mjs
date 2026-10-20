@@ -50,6 +50,25 @@ try {
           }
         }
 
+        const gap = await page.locator('#canvasTools').evaluate((tools) => {
+          const r = tools.getBoundingClientRect();
+          const buttons = [...tools.querySelectorAll('button')].map((b) => b.getBoundingClientRect());
+          for (let y = r.top + 4; y < r.bottom - 4; y += 4) {
+            for (let x = r.left + 4; x < r.right - 4; x += 4) {
+              if (buttons.every((b) => x < b.left - 2 || x > b.right + 2 || y < b.top - 2 || y > b.bottom + 2)) {
+                return { x, y, hit: document.elementFromPoint(x, y)?.id };
+              }
+            }
+          }
+          return null;
+        });
+        assert.ok(gap, `${label}: toolbar has whitespace to test`);
+        assert.equal(gap.hit, 'graph', `${label}: toolbar whitespace passes through to canvas`);
+        const zoom = await page.evaluate(() => window.__synapse.graph().zoom);
+        await page.mouse.move(gap.x, gap.y);
+        await page.mouse.wheel(0, zoom < 4 ? -120 : 120);
+        await page.waitForFunction((before) => window.__synapse.graph().zoom !== before, zoom);
+
         await reset.click({ timeout: 3000 });
         assert.match(await page.locator('#st-msg').textContent(), /layout reset.*all pins released/);
         assert.deepEqual(await page.evaluate(() => window.__synapse.graph().pinned), []);

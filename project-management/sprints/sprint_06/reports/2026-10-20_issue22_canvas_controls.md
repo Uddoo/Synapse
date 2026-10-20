@@ -55,6 +55,21 @@ Browser plugin not available; use the repository's Playwright/Chromium workflow.
 - Both adapter checks passed; the self-test caught all nine intentional drift fixtures.
 - `git diff --check` passed.
 
+## Review follow-up plan
+
+The automated review of `2364b69` found that the stretched transparent toolbar still intercepts
+graph gestures in its unused space. Extend the existing browser regression first to require
+canvas hit targets and wheel zoom through that space, then make only the wrapper ignore pointer
+events while restoring them on buttons and the lens menu. Update this report and the GBU record
+after rerunning the browser regression and build.
+
+Follow-up result: the added test failed on `2364b69` with `hit: canvasTools` rather than
+`graph` in a toolbar gap. After disabling pointer events on the wrapper and restoring them
+only on buttons and the lens menu, all 17 cases passed, including actual wheel zoom through
+the unused toolbar area. The existing Explorer spec (drag/pin/reset) and frontend build also
+passed again. Backend/provider code is unchanged, so its earlier 305-pass Linux result was
+not rerun or represented as a new run. The review conversation remains for the reviewer.
+
 ## Screenshot evidence and limits
 
 Playwright 1.64.1 drove Chromium at `http://localhost:5173/` against a loopback fixture backend.
