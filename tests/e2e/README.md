@@ -11,7 +11,13 @@ npm i -D playwright && npx playwright install chromium   # one-time, anywhere co
 node tests/e2e/sprint01_dashboard.spec.mjs               # acceptance flow: ingest×2, invariance, index
 node tests/e2e/keys_panel.spec.mjs                       # model-keys UX (write flow needs a SCRATCH stack + E2E_KEYS_WRITE_OK=1)
 node tests/e2e/sprint01_wiki_popup.spec.mjs              # wiki popup: wikilink nav, infobox, Esc
+node tests/e2e/canvas_controls.spec.mjs                 # reset/path/type/sort controls across viewport/sidebar states
 ```
+
+The canvas-controls regression expects the CI fixture vault (repo_a + repo_b + the
+assets-enabled repo_photos root) and `SYNAPSE_MOCK_MODELS=1`. It uses real button clicks,
+checks for overlapping/clipped hit targets, and saves screenshots at 390, 1024, 1280,
+1500, and 1920 px, including collapsed/restored/resized desktop sidebars.
 
 Both scripts exit non-zero on failure and drop screenshots into `tests/screenshots/`.
 They run against the LIVE dev stack (the founder's actual acceptance path). They are
